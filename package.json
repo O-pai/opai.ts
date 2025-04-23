@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "scripts": {
+    "generate-parser": "peggy -o dist/p_ai-parser.js --format es --dts src/p_ai.peggy",
+    "build": "pnpm run generate-parser && tsc --outDir dist"
+  },
+  "devDependencies": {
+    "peggy": "^4.2.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "openai": "^4.95.1",
+    "ora": "^8.2.0",
+    "yargs": "^17.7.2"
+  }
+}

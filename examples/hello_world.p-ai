@@ -1,0 +1,7 @@
+# hello_world(something: string)
+// output hello world or something!
+
+# hello_world_again
+// this function will fetch remote content
+// and output the content
+uses: ~fetch, hello_world
