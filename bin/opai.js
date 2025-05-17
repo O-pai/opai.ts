@@ -73,7 +73,7 @@ yargs()
                 content += "\n";
             }
             const ast = parse(content);
-            const system_prompt = `You are a coding assisant. You will generate the best "${argv.lang}" codes.\n`; 
+            const system_prompt = `You are a coding assistant. You will generate the best "${argv.lang}" codes.\n`; 
             const prompt = ast.accept(new SimplePromptVisitor(argv.lang)) + (argv.simple ? '' : `\n\nNotice: return code only between html tag "<code>", no explanation.\n`);
 
             if (argv.debug) {

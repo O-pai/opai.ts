@@ -6,16 +6,21 @@ export class SimplePromptVisitor implements ASTVisitor {
     visitProgram(node: ProgramNode, env: any): any {
         let c = `You implement codes according to description below.\n(From struct definitions, and then functions.)\n\n`
 
-        c += '# Struct Definitions\n'
-        c += node.structs.map((struct) => {
-            return struct.accept(this)
-        }).join('\n')
-        c += "\n"
+        if (node.structs.length > 0) {
+            c += '# Struct Definitions\n'
+            c += node.structs.map((struct) => {
+                return struct.accept(this)
+            }).join('\n')
+            c += "\n"
+        }
 
-        c += '# Function Definitions (start with "##"):\n\n'
-        c += node.funcs.map((func) => {
-            return func.accept(this)
-        }).join('\n')
+        if (node.funcs.length > 0) {
+            c += '# Function Definitions (start with "##"):\n\n'
+            c += node.funcs.map((func) => {
+                return func.accept(this)
+            }).join('\n')
+        }
+
         return c
     }
 

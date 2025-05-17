@@ -46,7 +46,7 @@ yargs()
                 content += "\n";
             }
             const ast = parse(content);
-            const system_prompt = `You are a coding assisant. You will generate the best "${argv.lang}" codes.\n\n`;
+            const system_prompt = `You are a coding assistant. You will generate the best "${argv.lang}" codes.\n\n`;
             const output = system_prompt + ast.accept(new SimplePromptVisitor(argv.lang));
 
             if (argv.output) {
