@@ -1,5 +1,6 @@
 {
     const env = {
+        structs: {},
         funcs: {},
     }
 
@@ -7,8 +8,12 @@
         const node = {type}
         switch(type) {
         case 'Program':
-            node.funcs = children
+            [node.structs, node.funcs] = children
             node.accept = (visitor) => visitor.visitProgram(node, env)
+            break;
+        case 'Struct':
+            [node.name, node.desc] = children
+            node.accept = (visitor) => visitor.visitStruct(node, env)
             break;
         case 'Function':
             [node.name, node.belongsTo, node.desc, node.input, node.output, node.uses] = children
@@ -30,12 +35,21 @@
 }
 
 Program
-= __ first:Function? rest:(__ Function)* __ {
+= __ comments:Comment* __ structs:Struct* __ first:Function? rest:(__ Function)* __ {
     const funcs = []
     if (first) funcs.push(first)
     funcs.push(...rest.map(([, f]) => f));
-    return makeNode('Program', ...funcs)
+    return makeNode('Program', structs || [], funcs)
 }
+
+Struct
+= '$' name:Identifier _ ':' _ desc:Text _ Newline {
+    env.structs[name] = desc
+    return makeNode('Struct', name, desc)
+}
+
+Comment
+= ';' _ text:Text _ Newline
 
 Function
 = '#' _ prefix:(Identifier '.')? name:Identifier _ inputs:InSig? _ outputs:OutSig? _ Newline desc:Line* tools:(Tools _ Newline)? {

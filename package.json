@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "generate-parser": "peggy -o dist/p_ai-parser.js --format es --dts src/p_ai.peggy",
+    "generate-parser": "peggy -o dist/opai_ps.js --format es --dts src/opai.peggy",
     "build": "pnpm run generate-parser && tsc --outDir dist"
   },
   "devDependencies": {

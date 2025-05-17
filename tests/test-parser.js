@@ -1,4 +1,4 @@
-import { parse } from '../dist/p_ai-parser.js';
+import { parse } from '../dist/opai_ps.js';
 import { SimplePromptVisitor } from '../dist/visitors/simple_prompt.js';
 
 // simple content
@@ -39,6 +39,8 @@ console.log(t4)
 console.log(JSON.stringify(ast, null, 2));
 
 const t5 = `
+; get whether from somewhere
+
 #get_weather_report(place) -> result: the weather report 
 // get weather report from the weather API
 uses: ~fetch

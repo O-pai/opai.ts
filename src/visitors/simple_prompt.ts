@@ -1,20 +1,32 @@
-import { FuncCallNode, FunctionNode, ParamNode, ProgramNode } from "../nodes/types";
+import { FuncCallNode, StructNode, FunctionNode, ParamNode, ProgramNode } from "../nodes/types";
 import { ASTVisitor } from "./visitor";
 
 export class SimplePromptVisitor implements ASTVisitor {
 
     visitProgram(node: ProgramNode, env: any): any {
-        let c = `You are about to implement below functions (start with "#"):\n\n`
+        let c = `You implement codes according to description below.\n(From struct definitions, and then functions.)\n\n`
+
+        c += '# Struct Definitions\n'
+        c += node.structs.map((struct) => {
+            return struct.accept(this)
+        }).join('\n')
+        c += "\n"
+
+        c += '# Function Definitions (start with "##"):\n\n'
         c += node.funcs.map((func) => {
             return func.accept(this)
-        }).join('\n\n')
+        }).join('\n')
         return c
+    }
+
+    visitStruct(node: StructNode, env: any): any {
+        return `- struct "${node.name}", which ${node.desc}\n` 
     }
 
     visitFunction(node: FunctionNode, env: any): any {
         const module_info = node.belongsTo ? `which belongs to module "${node.belongsTo}". ` : ''
-        let c = `# "${node.name}" ${module_info}\n`
-        const func_info = node.desc ? `This function is about "${node.desc}". \n` : ''
+        let c = `## "${node.name}" ${module_info}\n`
+        const func_info = node.desc ? `This function is about "${node.desc}". \n\n` : ''
         c += func_info
         if (node.input.length > 0) {
             c += `It takes the following input parameters:\n`
@@ -23,13 +35,13 @@ export class SimplePromptVisitor implements ASTVisitor {
             }).join('')
         }
         if (node.output.length > 0) {
-            c += `It will produce below outputs:\n`
+            c += `It returns:\n`
             c += node.output.map((param) => {
                 return param.accept(this)
             }).join('') 
         }
         if (node.uses.length > 0) {
-            c += `It uses the following utility functions if necessary:\n`
+            c += `It uses below utility functions if necessary:\n`
             c += node.uses.map((func) => {
                 return func.accept(this)
             }).join('')

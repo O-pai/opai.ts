@@ -3,14 +3,14 @@ import { hideBin } from "yargs/helpers";
 
 yargs()
     .scriptName("simple_prompt")
-    .usage("$0 <cmd> [args]")
+    .usage("$0 -l <lang> -o <outfile> [file]")
     .command(
-        "parse [file]",
-        "Generate prompts from p-ai file",
+        "* [file]",
+        "Generate prompts from .opai file",
         (yargs) => {
             yargs
                 .positional("file", {
-                    describe: ".p-ai file to parse (optional, defaults to stdin)",
+                    describe: ".opai file to parse (optional, defaults to stdin)",
                     type: "string",
                 })
                 .option("lang", {
@@ -26,7 +26,7 @@ yargs()
                 })
         },
         async (argv) => {
-            const { parse } = await import("../dist/p_ai-parser.js");
+            const { parse } = await import("../dist/opai_ps.js");
             const fs = await import("fs");
             const path = await import("path");
             const { SimplePromptVisitor } = await import("../dist/visitors/simple_prompt.js");
@@ -46,7 +46,7 @@ yargs()
                 content += "\n";
             }
             const ast = parse(content);
-            const system_prompt = `You are a coding assisant. You will generate the best ${argv.lang} code.\n`;
+            const system_prompt = `You are a coding assisant. You will generate the best "${argv.lang}" codes.\n\n`;
             const output = system_prompt + ast.accept(new SimplePromptVisitor(argv.lang));
 
             if (argv.output) {

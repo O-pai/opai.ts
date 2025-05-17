@@ -28,14 +28,23 @@ export type FunctionNode = {
     accept: Visitable['accept'];
 }
 
+export type StructNode = {
+    type: 'Struct';
+    name: string;
+    desc: string;
+    accept: Visitable['accept'];
+}
+
 export type ProgramNode = {
     type: 'Program';
+    structs: StructNode[];
     funcs: FunctionNode[];
     accept: Visitable['accept'];
 }
 
 export type ASTNode =
     | ProgramNode
+    | StructNode
     | FunctionNode
     | ParamNode
     | FuncCallNode

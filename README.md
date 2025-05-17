@@ -1,37 +1,37 @@
-# P-AI
+# OPai
 
-P-ai是一个DSL，一个基于人类与AI之间用来代码生成的中间语言。  
-P-ai is a DSL, an intermediate language between human and AI for generating codes.
+OPai是一个DSL，一个基于人类与AI之间用来代码生成的中间语言。  
+OPai is a DSL, an intermediate language between human and AI for generating codes.
 
-## 语法 / Grammar
+(其实我想取pai为名字，但是Org没有了～)
 
-### Method/Function 定义/Definition
-```
-Function ::= 
-#FunctionName (Parameter: Optional Description, ...) -> OptionalResult: Description
-// Description
-uses: ~FunctionName1, FunctionName2
-```
-
-Hello World 例子/Example:
-```
-# hello_world(something: string)
-// output hello world or something!
-```
-
-参考 examples/hello_world.p-ai, 经典的Hello World例子。  
-你将使用命令行来利用p-ai来生成prompts。不过首先你要将typescript编译成javascript。  
-Refer to examples/hello-world.p-ai, the classic Hello World example.  
-You will use the command line to generate prompts using p-ai. But first, you need to compile the typescript into JavaScript.
-
-## 安装步骤 / Installation steps
+## 安装 / Installation
 1. Clone项目仓库 / Clone this repository
 1. 安装依赖 / Install dependencies: `npm install`
 1. 生成js / Generate js: `npm run build`
-1. 配置/Configure `.env` (refer to .env.example). Using your AI platform's key and entry address. (Of course, if you just want to generate a prompt, you don't need this step)
-4. 运行/Run `node ./bin/p-ai.js ` or `node ./bin/single_prompt. js ` (-- help can provide assistance)
+1. 配置/Configure `.env` (check .env.example) -- Optional step if you just want to use `bin/simple_prompt.js`
+1. 运行/Run `node ./bin/opai.js ` or `node ./bin/simple_prompt. js ` (--help see more)
+
+## 语法 / Grammar
+
+### Struct 定义/Definitions
+```
+$Person: with id, name, age
+$Car: color
+```
+
+### Method/Function 定义/Definition
+```
+# who_am_I(id: person id) -> person: string
+// this function will fetch the remote person data by id
+// and then convert the person data to string
+uses: ~fetch
+```
+
+### Full Example
+Read examples under `./examples`.
 
 ## QA
-* 用来做什么 / What is it used for?  
-We know that current AI can generate code, but there are certain errors in this generation. For example, you need to explain the function name as much as possible, which is relatively cumbersome. So defining an intermediate format and then generating prompts would be more convenient.  
-In other words, p-ai is a method used to simply express the functionality that needs to be implemented, paraphrased in prompt language that is easy for AI to understand.
+* 用来做什么 / What is this used for?  
+直接Text to codes, 通常可以完成65%～90%的需求。
+不过在细节上，也许需要更精确的掌控；另外临时的想法也可以尝试用Opai DSL来定义。

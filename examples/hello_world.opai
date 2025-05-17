@@ -1,0 +1,12 @@
+; simple example to generate code
+
+$Person: with id, name and age as fields
+
+# hello_world(something: string)
+// output hello world or something!
+
+# who_am_I(id: person id) -> person: string
+// this function will fetch the remote person data by id
+// and then convert the person data to string
+uses: ~fetch 
+
