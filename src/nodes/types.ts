@@ -22,6 +22,7 @@ export type FunctionNode = {
     belongsTo: string;
     // fullname: string;
     desc: string;
+    hasTests: boolean;
     input: ParamNode[];
     output: ParamNode[];
     uses: FuncCallNode[];

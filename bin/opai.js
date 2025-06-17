@@ -1,10 +1,10 @@
+import dotenv from 'dotenv';
+import fs from "fs";
+import OpenAI from "openai";
+import ora from "ora";
+import path from "path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import OpenAI from "openai";
-import fs from "fs";
-import path from "path";
-import ora from "ora";
-import dotenv from 'dotenv';
 dotenv.config();
 
 const configuration = {
@@ -73,8 +73,9 @@ yargs()
                 content += "\n";
             }
             const ast = parse(content);
-            const system_prompt = `You are a coding assistant. You will generate the best "${argv.lang}" codes.\n`; 
-            const prompt = ast.accept(new SimplePromptVisitor(argv.lang)) + (argv.simple ? '' : `\n\nNotice: return code only between html tag "<code>", no explanation.\n`);
+            let system_prompt = `You are a coding assistant. You will generate the best "${argv.lang}" codes.\n`; 
+            system_prompt += argv.simple ? `Notice: return code only between html tag "<code>", no explanation.\n` : '';
+            const prompt = ast.accept(new SimplePromptVisitor(argv.lang));
 
             if (argv.debug) {
                 console.log("==== DEBUG ====\n");

@@ -16,7 +16,7 @@
             node.accept = (visitor) => visitor.visitStruct(node, env)
             break;
         case 'Function':
-            [node.name, node.belongsTo, node.desc, node.input, node.output, node.uses] = children
+            [node.hasTests, node.name, node.belongsTo, node.desc, node.input, node.output, node.uses] = children
             node.accept = (visitor) => visitor.visitFunction(node, env)
             break;
         case 'Param':
@@ -52,11 +52,12 @@ Comment
 = ';' _ text:Text _ Newline
 
 Function
-= '#' _ prefix:(Identifier '.')? name:Identifier _ inputs:InSig? _ outputs:OutSig? _ Newline desc:Line* tools:(Tools _ Newline)? {
+= '#' _ hasTests:'*'? _ prefix:(Identifier '.')? name:Identifier _ inputs:InSig? _ outputs:OutSig? _ Newline desc:Line* tools:(Tools _ Newline)? {
+    hasTests = !!hasTests
     prefix = !!prefix ? prefix + '.' : ''
     const d = desc?.join('\n') || ''
     env.funcs[prefix + name] = d
-    return makeNode('Function', name, prefix?.[0] || '', d, inputs || [],  outputs || [], tools?.[0] || [])
+    return makeNode('Function', hasTests, name, prefix?.[0] || '', d, inputs || [],  outputs || [], tools?.[0] || [])
 }
 
 Identifier

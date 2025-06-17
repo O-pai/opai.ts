@@ -1,10 +1,11 @@
-import { FuncCallNode, StructNode, FunctionNode, ParamNode, ProgramNode } from "../nodes/types";
+import { FuncCallNode, FunctionNode, ParamNode, ProgramNode, StructNode } from "../nodes/types";
 import { ASTVisitor } from "./visitor";
 
 export class SimplePromptVisitor implements ASTVisitor {
+    private tests: string[] = []
 
     visitProgram(node: ProgramNode, env: any): any {
-        let c = `You implement codes according to description below.\n(From struct definitions, and then functions.)\n\n`
+        let c = `You implement codes according to description below.\n(From struct definitions, then functions, and then unit tests if defined.)\n\n`
 
         if (node.structs.length > 0) {
             c += '# Struct Definitions\n'
@@ -19,6 +20,16 @@ export class SimplePromptVisitor implements ASTVisitor {
             c += node.funcs.map((func) => {
                 return func.accept(this)
             }).join('\n')
+            c += "\n"
+        }
+
+        if (this.tests.length > 0) {
+            c += '# Unit Tests\n'
+            c += 'You also need to implement unit tests for functions listed here:\n'
+            c += this.tests.map(func => {
+                return '- ' + func
+            }).join('\n')
+            c += '\n'
         }
 
         return c
@@ -33,6 +44,7 @@ export class SimplePromptVisitor implements ASTVisitor {
         let c = `## "${node.name}" ${module_info}\n`
         const func_info = node.desc ? `This function is about "${node.desc}". \n\n` : ''
         c += func_info
+        node.hasTests && this.tests.push(node.name) // it has tests
         if (node.input.length > 0) {
             c += `It takes the following input parameters:\n`
             c += node.input.map((param) => {
