@@ -1,10 +1,27 @@
 {
+  "name": "opai",
+  "version": "0.0.6",
+  "description": "OPai DSL to create prompts for generating code easily",
   "type": "module",
+  "types": "dist/opai_ps.d.ts",
+  "bin": {
+    "opai": "bin/opai.js",
+    "simple_prompt": "bin/simple_prompt.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "README.md",
+    "*.d.ts"
+  ],
   "scripts": {
     "generate-parser": "peggy -o dist/opai_ps.js --format es --dts src/opai.peggy",
-    "build": "pnpm run generate-parser && tsc --outDir dist"
+    "build": "pnpm run generate-parser && tsc --outDir dist",
+    "prepublishOnly": "pnpm run build",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
     "peggy": "^4.2.0",
     "typescript": "^5.8.3"
   },

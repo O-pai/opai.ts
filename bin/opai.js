@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import dotenv from 'dotenv';
 import fs from "fs";
 import OpenAI from "openai";
@@ -75,7 +77,7 @@ yargs()
             const ast = parse(content);
             let system_prompt = `You are a coding assistant. You will generate the best "${argv.lang}" codes.\n`; 
             system_prompt += argv.simple ? `Notice: return code only between html tag "<code>", no explanation.\n` : '';
-            const prompt = ast.accept(new SimplePromptVisitor(argv.lang));
+            const prompt = ast.accept(new SimplePromptVisitor());
 
             if (argv.debug) {
                 console.log("==== DEBUG ====\n");
@@ -94,7 +96,7 @@ yargs()
                         { role: "user", content: prompt },
                     ],
                     stream: false,
-                    max_tokens: 1000,
+                    max_tokens: 4000, // 4k
                 });
 
                 spinner.succeed("Code generation completed!");
