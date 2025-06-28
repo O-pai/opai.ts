@@ -1,5 +1,5 @@
 {
-  "name": "opai",
+  "name": "opai-dsl",
   "version": "0.0.6",
   "description": "OPai DSL to create prompts for generating code easily",
   "type": "module",
