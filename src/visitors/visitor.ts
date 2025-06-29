@@ -1,3 +1,5 @@
+import { FuncCallNode, FunctionNode, ParamNode, ProgramNode, StructNode } from '../nodes/types';
+
 export interface ASTVisitor {
     visitProgram(node: ProgramNode, env: any): any;
     visitStruct(node: StructNode, env: any): any;
