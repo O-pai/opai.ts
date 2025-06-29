@@ -1,6 +1,6 @@
 {
   "name": "opai-dsl",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "OPai DSL to create prompts for generating code easily",
   "type": "module",
   "types": "dist/opai_ps.d.ts",
