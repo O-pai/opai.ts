@@ -2,6 +2,15 @@
   "name": "opai-dsl",
   "version": "0.0.7",
   "description": "OPai DSL to create prompts for generating code easily",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/O-pai/opai.ts"
+  },
+  "author": "OPai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OPai/opai-dsl/issues"
+  },
   "type": "module",
   "types": "dist/opai_ps.d.ts",
   "bin": {
